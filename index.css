@@ -1,8 +1,30 @@
 #game {
+  width: 960px;
+  height: 690px;
+  background-color: black;
+  position: relative;
+  margin: 0 auto;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 5px;
+}
+
+#toolbar {
+  width: 960px;
+  height: 60px;
+  background-color: black;
+  opacity: 0.3;
+  position: relative;
+  margin: 0 auto;
+  clear: both;
+  /*opacity: 0.2;*/
 }
 
 .card {
   width: 100px;
   height: 150px;
-  background-color: black;
+  background-color: blue;
+  margin: 10px;
+  float: left;
+  /*clear: left;*/
 }

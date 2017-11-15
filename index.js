@@ -1,12 +1,13 @@
 const game = document.getElementById("game");
 const gameDeck = [];
+let howManyRows = 2;
 // const shuffledArray = shuffleArray(gameDeck);
 let data;
 let currentFlipped = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
   //set on click event when they say how many rows they want/reset game?
-  makeBoardOfXRows(2); //move outside, give option to set how many rows? (how difficult)
+  makeBoardOfXRows(howManyRows); //move outside, give option to set how many rows? (how difficult)
 
   fetch("http://localhost:3000/users")
     .then(res => res.json())
@@ -19,9 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function generateCards(json) {
-  json.forEach(function(json) {
+  for (let i = 0; i < howManyRows * 4; i++) {
     addCardToDeck(json);
-  });
+  }
   collectCards(json);
 }
 

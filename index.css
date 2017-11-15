@@ -34,3 +34,16 @@
 #startGame {
   float: left;
 }
+
+.pause {
+  /*z-index: 0;*/
+  width: 960px;
+  height: 690px;
+  background-color: black;
+  position: relative;
+  margin: 0 auto;
+  opacity: 0
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 5px;
+}

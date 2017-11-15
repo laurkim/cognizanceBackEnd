@@ -14,7 +14,7 @@
   width: 976px;
   height: 60px;
   background-color: black;
-  opacity: 0.3;
+  /*opacity: 0.3;*/
   position: relative;
   margin: 0 auto;
   clear: both;
@@ -29,4 +29,8 @@
   margin: 10px;
   float: left;
   /*clear: left;*/
+}
+
+#startGame {
+  float: left;
 }

@@ -2,8 +2,9 @@ const game = document.getElementById("game");
 const gameDeck = [];
 let howManyRows = 3;
 // const shuffledArray = shuffleArray(gameDeck);
-let data;
+// let data;
 let currentFlipped = 0;
+let totalFlips = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
   //set on click event when they say how many rows they want/reset game?
@@ -18,6 +19,21 @@ document.addEventListener("DOMContentLoaded", () => {
       generateCards(json);
     });
 });
+
+function changeButton() {
+  const button = document.getElementById("startGame");
+  button.parentNode.removeChild(button);
+  const toolbar = document.getElementById("toolbar");
+  toolbar.innerHTML = `<button id="startGame" onclick="gamePlay()">Start New Game!</button>`;
+}
+
+// function gamePlay() {
+//   if (currentFlipped === 2) {
+//     doTheyMatch();
+//   } else {
+//     setTimeout(gamePlay, 17);
+//   }
+// }
 
 function generateCards(json) {
   makeDecks(json);
@@ -34,6 +50,16 @@ function makeDecks(json) {
       //removes from json array
       json.splice(index, 1);
     }
+  }
+}
+
+function collectCards(json) {
+  const shuffledArray = shuffleArray(gameDeck);
+  const cards = document.getElementsByClassName("card");
+  // debugger;
+  for (let i = 0; i < cards.length; i++) {
+    // debugger;
+    addCardListener(cards[i], shuffledArray[i]);
   }
 }
 
@@ -54,21 +80,17 @@ function addCardToDeck(json) {
   gameDeck.push({ id: json.id, image: json.img, name: json.name }); //2 of each card
 }
 
-function collectCards(json) {
-  const shuffledArray = shuffleArray(gameDeck);
-  const cards = document.getElementsByClassName("card");
-  // debugger;
-  for (let i = 0; i < cards.length; i++) {
-    // debugger;
-    addCardListener(cards[i], shuffledArray[i]);
-  }
-}
-
 function addCardListener(card, shuffledArray) {
   // debugger;
   card.addEventListener("click", () => {
-    card.style.backgroundImage = `url('${shuffledArray.image}')`;
     currentFlipped += 1;
+    totalFlips += 1;
+    // console.log(currentFlipped);
+    card.style.backgroundImage = `url('${shuffledArray.image}')`;
+    card.style.id = shuffledArray.id;
+    if (currentFlipped === 2) {
+      doTheyMatch();
+    }
   });
 }
 
@@ -77,7 +99,7 @@ function makeBoardOfXRows(rows) {
     for (var j = 0; j < 8; j++) {
       const card = document.createElement("div");
       card.className = "card";
-      card.id = `${i}${j}`;
+      card.id = `id-${i}${j}`;
       game.appendChild(card);
     }
   }
@@ -89,6 +111,6 @@ function makeBoardOfXRows(rows) {
 //   }
 // }
 
-// function doTheyMatch() {
-//   currentFlipped = 0;
-// }
+function doTheyMatch() {
+  currentFlipped = 0;
+}

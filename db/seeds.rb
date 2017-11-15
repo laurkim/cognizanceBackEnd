@@ -20,7 +20,13 @@ cards = [
   ["Squirtle", "lib/images/squirtle.png"],
   ["Swinub", "lib/images/swinub.png"],
   ["Togepi", "lib/images/togepi2.png"],
-  ["Zubat", "lib/images/zubat2.png"]
+  ["Zubat", "lib/images/zubat2.png"],
+  ["Bulbasaur", "lib/images/bulbasaur2.png"],
+  ["Caterpie", "lib/images/caterpie2.png"],
+  ["Farfetchd", "lib/images/farfetchd2.png"],
+  ["Piplup", "lib/images/piplup2.png"],
+  ["Raticate", "lib/images/raticate2.png"],
+  ["Sandshrew", "lib/images/sandshrew2.png"]
 ]
 
 cards.each do |name, img|

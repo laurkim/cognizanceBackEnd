@@ -1,6 +1,6 @@
 const game = document.getElementById("game");
 const gameDeck = [];
-let howManyRows = 2;
+let howManyRows = 3;
 // const shuffledArray = shuffleArray(gameDeck);
 let data;
 let currentFlipped = 0;
@@ -20,10 +20,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function generateCards(json) {
-  json.forEach(function(json) {
-    addCardToDeck(json);
-  });
+  makeDecks(json);
   collectCards(json);
+}
+
+//gets random card from all json, addCardToDe adds to gameDeck, then removes from json array for next iteration
+function makeDecks(json) {
+  for (let i = 0; i < howManyRows * 4; i++) {
+    var rand = json[Math.floor(Math.random() * json.length)];
+    let index = json.indexOf(rand);
+    addCardToDeck(rand);
+    if (index > -1) {
+      //removes from json array
+      json.splice(index, 1);
+    }
+  }
 }
 
 //modern version of fischer-yates shuffle algorithm
@@ -37,7 +48,7 @@ function shuffleArray(array) {
   }
   return array;
 }
-
+//push 2 of the same card to gameDeck (for matching)
 function addCardToDeck(json) {
   gameDeck.push({ id: json.id, image: json.img, name: json.name });
   gameDeck.push({ id: json.id, image: json.img, name: json.name }); //2 of each card

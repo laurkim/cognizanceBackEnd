@@ -1,10 +1,6 @@
 const game = document.getElementById("game");
 const gameDeck = [];
-<<<<<<< HEAD
 let howManyRows = 3;
-=======
-let howManyRows = 4;
->>>>>>> robert
 let currentFlipped = 0;
 let totalFlips = 0;
 let matchId = [];
@@ -23,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-<<<<<<< HEAD
 function startGameListener(json) {
   const startButton = document.getElementById("start-button");
   startButton.addEventListener("click", () => {
@@ -45,8 +40,6 @@ function startTimer() {
   }, 1000)
 }
 
-=======
->>>>>>> robert
 function generateCards(json) {
   makeDecks(json);
   collectCards(json);

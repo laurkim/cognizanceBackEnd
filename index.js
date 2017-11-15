@@ -1,10 +1,9 @@
 const game = document.getElementById("game");
 const gameDeck = [];
-let howManyRows = 3;
-// const shuffledArray = shuffleArray(gameDeck);
-// let data;
+let howManyRows = 4;
 let currentFlipped = 0;
 let totalFlips = 0;
+let matchId = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   //set on click event when they say how many rows they want/reset game?
@@ -19,21 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
       generateCards(json);
     });
 });
-
-function changeButton() {
-  const button = document.getElementById("startGame");
-  button.parentNode.removeChild(button);
-  const toolbar = document.getElementById("toolbar");
-  toolbar.innerHTML = `<button id="startGame" onclick="gamePlay()">Start New Game!</button>`;
-}
-
-// function gamePlay() {
-//   if (currentFlipped === 2) {
-//     doTheyMatch();
-//   } else {
-//     setTimeout(gamePlay, 17);
-//   }
-// }
 
 function generateCards(json) {
   makeDecks(json);
@@ -52,9 +36,9 @@ function makeDecks(json) {
     }
   }
 }
-
+//randomizes images, adds an event listener to each card div, specific to an image
 function collectCards(json) {
-  const shuffledArray = shuffleArray(gameDeck);
+  const shuffledArray = shuffleArray(gameDeck); //change shuffleArray(gameDeck) to gameDeck to troubleshoot (wont shuffle)
   const cards = document.getElementsByClassName("card");
   // debugger;
   for (let i = 0; i < cards.length; i++) {
@@ -63,7 +47,7 @@ function collectCards(json) {
   }
 }
 
-//modern version of fischer-yates shuffle algorithm
+//modern version of fischer-yates shuffle algorithm, shuffles array.
 function shuffleArray(array) {
   var j, x, i;
   for (i = array.length - 1; i > 0; i--) {
@@ -77,23 +61,32 @@ function shuffleArray(array) {
 //push 2 of the same card to gameDeck (for matching)
 function addCardToDeck(json) {
   gameDeck.push({ id: json.id, image: json.img, name: json.name });
-  gameDeck.push({ id: json.id, image: json.img, name: json.name }); //2 of each card
+  gameDeck.push({ id: "a" + json.id, image: json.img, name: json.name }); //2 of each card
 }
 
+//adds a 'flipping' listener to each card on click
 function addCardListener(card, shuffledArray) {
-  // debugger;
-  card.addEventListener("click", () => {
-    currentFlipped += 1;
-    totalFlips += 1;
-    // console.log(currentFlipped);
-    card.style.backgroundImage = `url('${shuffledArray.image}')`;
-    card.style.id = shuffledArray.id;
-    if (currentFlipped === 2) {
-      doTheyMatch();
+  card.addEventListener("click", function() {
+    //fixes bug where you could click the same card twice and get a match
+    if (this.id != matchId[1]) {
+      //currentFlipped resets every 2nd click, and triggers a match check (doTheyMatch)
+      if (currentFlipped != 2) {
+        currentFlipped += 1;
+        if (currentFlipped % 2 === 0) {
+          totalFlips += 1; //increments score, by pair of clicks.
+        }
+        card.style.backgroundImage = `url('${shuffledArray.image}')`; //changes div image
+        card.style.id = shuffledArray.id;
+        matchId.push(card.style.id, card.id); //card.style.id is the id of the json image, card.id is the id of the div, used for determining matches
+        if (currentFlipped === 2) {
+          doTheyMatch();
+        }
+      }
     }
   });
 }
 
+//makes a game board of a certain number of rows of 8 cards.
 function makeBoardOfXRows(rows) {
   for (var i = 0; i < rows; i++) {
     for (var j = 0; j < 8; j++) {
@@ -105,12 +98,46 @@ function makeBoardOfXRows(rows) {
   }
 }
 
-// function SetCardValue() {
-//   const cards = document.getElementsByClassName("card");
-//   for (let i = 0; i < gameDeck.length; i++) {
-//   }
-// }
-
 function doTheyMatch() {
+  if (
+    matchId[0].toString() === "a" + matchId[2] ||
+    "a" + matchId[0] === matchId[2].toString()
+  ) {
+    // if (matchId[0] === matchId[2] && matchId[1] != matchId[3]) { //also works, remove the "a" assignment from addCardToDeck. Less good, as id's should be unique
+    theyMatch();
+  } else {
+    setTimeout(changeBack, 1500); //Want to make this a click event, not a timeout, but cant get the click working over the entire page.  Currently, it only works 'not on a card div'
+  }
+}
+
+function theyMatch() {
+  window.setTimeout(changeMatching, 500);
+}
+
+//makes a clone of the divs, removes the original (and their associated event listeners), sets the new clone opacity, resets the matchId array, resets the currently flipped cards counter
+function changeMatching() {
+  makeClone(1);
+  makeClone(3);
+  document.getElementById(matchId[1]).style.opacity = 0.4;
+  document.getElementById(matchId[3]).style.opacity = 0.4;
+  matchId = [];
+  currentFlipped = 0;
+}
+
+//removes all event listeners, clones and appends div (so no more clicks can occur)
+function makeClone(e) {
+  const element = document.getElementById(matchId[e]);
+  var clone = element.cloneNode();
+  while (element.firstChild) {
+    clone.appendChild(element.lastChild);
+  }
+  element.parentNode.replaceChild(clone, element);
+}
+
+//on wrong guesses, changes card image back to the 'back' of the card. resets matchId and currentFlipped
+function changeBack() {
+  document.getElementById(matchId[1]).style.background = "blue";
+  document.getElementById(matchId[3]).style.background = "blue";
+  matchId = [];
   currentFlipped = 0;
 }

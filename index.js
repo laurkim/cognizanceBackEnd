@@ -11,15 +11,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetch("http://localhost:3000/users")
     .then(res => res.json())
-    .then(json => console.log("test"));
+    .then(json => json);
   fetch("http://localhost:3000/cards")
     .then(res => res.json())
     .then(json => {
-      startGameListener(json);
+      initiateGameListener(json);
     });
 });
 
-function startGameListener(json) {
+// starts timer and allows user to play when start button is clicked
+function initiateGameListener(json) {
   const startButton = document.getElementById("start-button");
   startButton.addEventListener("click", () => {
     console.log("you've clicked start");
@@ -28,17 +29,51 @@ function startGameListener(json) {
   });
 }
 
-function startTimer() {
+function timer() {
   let timeDiv = document.getElementsByClassName("timer-count");
   let time = timeDiv[0].innerText;
-  time = 0;
-  // console.log(time[0].innerText);
-  setInterval(function() {
-    checkGameStatus();
-    // console.log(time);
-    ++time;
-    timeDiv[0].innerText = time;
+  time = "00:59";
+  timeDiv[0].innerText = time;
+  let seconds = parseInt(time.split(":")[1]);
+  let timer = setInterval(function() {
+    let timeDiv = document.getElementsByClassName("timer-count");
+    if (seconds === 0) {
+      console.log("timer is over");
+      clearInterval(timer);
+    } else if (seconds > 10) {
+      console.log("timer is not zero");
+      --seconds;
+      timeDiv[0].innerText = `00:${seconds}`;
+    } else {
+      console.log("timer is less than 10");
+      --seconds;
+      timeDiv[0].innerText = `00:0${seconds}`;
+    }
   }, 1000);
+}
+// time = 0;
+// // console.log(time[0].innerText);
+// setInterval(function() {
+//   checkGameStatus();
+//   // console.log(time);
+//   ++time;
+//   timeDiv[0].innerText = time;
+// }, 1000);
+
+function resetGame() {
+  const resetButton = document.getElementsByClassName("game-reset");
+  resetButton.addEventListener("click", () => {
+    let timeDiv = document.getElementsByClassName("timer-count");
+    timeDiv[0].innerText = "Timer";
+    fetch("http://localhost:3000/users")
+      .then(res => res.json())
+      .then(json => json);
+    fetch("http://localhost:3000/cards")
+      .then(res => res.json())
+      .then(json => {
+        initiateGameListener(json);
+      });
+  });
 }
 
 function generateCards(json) {

@@ -1,8 +1,6 @@
 const game = document.getElementById("game");
 const gameDeck = [];
 let howManyRows = 3;
-// const shuffledArray = shuffleArray(gameDeck);
-// let data;
 let currentFlipped = 0;
 let totalFlips = 0;
 
@@ -12,28 +10,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetch("http://localhost:3000/users")
     .then(res => res.json())
-    .then(json => console.log(json));
+    .then(json => console.log("test"));
   fetch("http://localhost:3000/cards")
     .then(res => res.json())
     .then(json => {
-      generateCards(json);
+      startGameListener(json);
     });
 });
 
-function changeButton() {
-  const button = document.getElementById("startGame");
-  button.parentNode.removeChild(button);
-  const toolbar = document.getElementById("toolbar");
-  toolbar.innerHTML = `<button id="startGame" onclick="gamePlay()">Start New Game!</button>`;
+function startGameListener(json) {
+  const startButton = document.getElementById("start-button");
+  startButton.addEventListener("click", () => {
+    console.log("you've clicked start")
+    generateCards(json);
+    startTimer();
+  })
 }
 
-// function gamePlay() {
-//   if (currentFlipped === 2) {
-//     doTheyMatch();
-//   } else {
-//     setTimeout(gamePlay, 17);
-//   }
-// }
+function startTimer() {
+  let timeDiv = document.getElementsByClassName("timer-count");
+  let time = timeDiv[0].innerText;
+  time = 0;
+  // console.log(time[0].innerText);
+  setInterval(function() {
+    console.log(time);
+    ++time;
+    timeDiv[0].innerText = time;
+  }, 1000)
+}
 
 function generateCards(json) {
   makeDecks(json);

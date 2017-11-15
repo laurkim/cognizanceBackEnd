@@ -20,9 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function generateCards(json) {
-  for (let i = 0; i < howManyRows * 4; i++) {
+  json.forEach(function(json) {
     addCardToDeck(json);
-  }
+  });
   collectCards(json);
 }
 

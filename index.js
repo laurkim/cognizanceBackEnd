@@ -29,36 +29,44 @@ function initiateGameListener(json) {
   });
 }
 
-function timer() {
+// function timer() {
+//   let timeDiv = document.getElementsByClassName("timer-count");
+//   let time = timeDiv[0].innerText;
+//   time = "00:59";
+//   timeDiv[0].innerText = time;
+//   let seconds = parseInt(time.split(":")[1]);
+//   let timer = setInterval(function() {
+//     checkGameStatus();
+//     let timeDiv = document.getElementsByClassName("timer-count");
+//     if (seconds === 0) {
+//       console.log("timer is over");
+//       clearInterval(timer);
+//     } else if (seconds > 10) {
+//       console.log("timer is not zero");
+//       --seconds;
+//       timeDiv[0].innerText = `00:${seconds}`;
+//     } else {
+//       console.log("timer is less than 10");
+//       --seconds;
+//       timeDiv[0].innerText = `00:0${seconds}`;
+//     }
+//   }, 1000);
+// }
+let timer;
+function startTimer() {
   let timeDiv = document.getElementsByClassName("timer-count");
   let time = timeDiv[0].innerText;
-  time = "00:59";
-  timeDiv[0].innerText = time;
-  let seconds = parseInt(time.split(":")[1]);
-  let timer = setInterval(function() {
-    let timeDiv = document.getElementsByClassName("timer-count");
-    if (seconds === 0) {
-      console.log("timer is over");
-      clearInterval(timer);
-    } else if (seconds > 10) {
-      console.log("timer is not zero");
-      --seconds;
-      timeDiv[0].innerText = `00:${seconds}`;
-    } else {
-      console.log("timer is less than 10");
-      --seconds;
-      timeDiv[0].innerText = `00:0${seconds}`;
+  time = 0;
+  // console.log(time[0].innerText);
+  timer = setInterval(function() {
+    // console.log(time);
+    checkGameStatus();
+    if (!document.getElementsByClassName("win")[0]) {
+      ++time;
+      timeDiv[0].innerText = time;
     }
   }, 1000);
 }
-// time = 0;
-// // console.log(time[0].innerText);
-// setInterval(function() {
-//   checkGameStatus();
-//   // console.log(time);
-//   ++time;
-//   timeDiv[0].innerText = time;
-// }, 1000);
 
 function resetGame() {
   const resetButton = document.getElementsByClassName("game-reset");
@@ -226,11 +234,19 @@ function changeBack() {
 
 function checkGameStatus() {
   const matchedCards = document.getElementsByClassName("matched");
-  const timer = document.getElementsByClassName("timer-count")[0].innerText;
+  const currentTime = document.getElementsByClassName("timer-count")[0]
+    .innerText;
   if (matchedCards.length === howManyRows * 8) {
-    alert(`YOU WIN! You took ${totalFlips} tries in ${timer} seconds.`);
+    const win = document.createElement("div");
+    win.innerText = `YOU WIN! You took ${totalFlips} tries in ${currentTime} seconds.`;
+    win.className = "win";
+    game.appendChild(win);
+    document.getElementsByClassName("timer-count")[0].innerText = currentTime;
+    // postGameData();
   }
 }
+
+// function postGameData() {}
 
 // function updateGame() {
 //   const body = { gameArray: shuffledArray };

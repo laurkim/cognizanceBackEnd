@@ -1,5 +1,7 @@
 const game = document.getElementById("game");
 const gameDeck = [];
+// const shuffledArray = shuffleArray(gameDeck);
+let data;
 let currentFlipped = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -23,64 +25,47 @@ function generateCards(json) {
   collectCards(json);
 }
 
+//modern version of fischer-yates shuffle algorithm
+function shuffleArray(array) {
+  var j, x, i;
+  for (i = array.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = array[i];
+    array[i] = array[j];
+    array[j] = x;
+  }
+  return array;
+}
+
 function addCardToDeck(json) {
   gameDeck.push({ id: json.id, image: json.img, name: json.name });
-  gameDeck.push({ id: json.id + "a", image: json.img, name: json.name }); //2 of each card
+  gameDeck.push({ id: json.id, image: json.img, name: json.name }); //2 of each card
 }
 
 function collectCards(json) {
+  const shuffledArray = shuffleArray(gameDeck);
   const cards = document.getElementsByClassName("card");
-  const arr = [];
-  for (let i = 0; i < cards.length; i++) {
-    addCardListener(cards[i], json);
-    // arr.push(cards[i]);
-    // debugger;
-  }
   // debugger;
-  // return arr;
+  for (let i = 0; i < cards.length; i++) {
+    // debugger;
+    addCardListener(cards[i], shuffledArray[i]);
+  }
 }
 
-function addCardListener(card, json) {
+function addCardListener(card, shuffledArray) {
   // debugger;
-  // card.addEventListener("click", function() {
-  //   const newImg = document.createElement("div");
-  //   newImg.style.backgroundImage = "url('es_face_small.png')";
-  //   card.appendChild(newImg);
-  // debugger;
-  // });
   card.addEventListener("click", () => {
-    // console.log(card);
-    // alert("this has been clicked");
-    card.style.backgroundImage = "url('es_face_small.png')";
+    card.style.backgroundImage = `url('${shuffledArray.image}')`;
+    currentFlipped += 1;
   });
 }
 
-// function addEventToCards(json) {
-//   debugger;
-//   for (const card of cards) {
-//     debugger;
-//     card.addEventListener("click", ev => {
-//       ev.preventDefault();
-//       // const randomIndex = Math.floor(Math.random() * gameDeck.length);
-//       const newImg = document.createElement("img");
-//       newImg.src = json.img;
-//       card.appendChild(newImg);
-// currentFlipped += 1;
-//       // cards[i].style.backgroundImage = gameDeck[randomIndex];
-//     });
-//   }
-// }
-
 function makeBoardOfXRows(rows) {
   for (var i = 0; i < rows; i++) {
-    //8 fits across arbitrary gameboard size I made
-    // debugger;
     for (var j = 0; j < 8; j++) {
-      // debugger;
       const card = document.createElement("div");
       card.className = "card";
       card.id = `${i}${j}`;
-      // debugger;
       game.appendChild(card);
     }
   }

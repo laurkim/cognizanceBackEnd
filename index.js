@@ -1,6 +1,6 @@
 const game = document.getElementById("game");
 const gameDeck = [];
-let howManyRows = 3;
+let howManyRows = 1;
 let currentFlipped = 0;
 let totalFlips = 0;
 let matchId = [];
@@ -22,10 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
 function startGameListener(json) {
   const startButton = document.getElementById("start-button");
   startButton.addEventListener("click", () => {
-    console.log("you've clicked start")
+    console.log("you've clicked start");
     generateCards(json);
     startTimer();
-  })
+  });
 }
 
 function startTimer() {
@@ -34,10 +34,11 @@ function startTimer() {
   time = 0;
   // console.log(time[0].innerText);
   setInterval(function() {
-    console.log(time);
+    checkGameStatus();
+    // console.log(time);
     ++time;
     timeDiv[0].innerText = time;
-  }, 1000)
+  }, 1000);
 }
 
 function generateCards(json) {
@@ -59,11 +60,9 @@ function makeDecks(json) {
 }
 //randomizes images, adds an event listener to each card div, specific to an image
 function collectCards(json) {
-  const shuffledArray = shuffleArray(gameDeck); //change shuffleArray(gameDeck) to gameDeck to troubleshoot (wont shuffle)
+  const shuffledArray = gameDeck; //shuffleArray(gameDeck); //change shuffleArray(gameDeck) to gameDeck to troubleshoot (wont shuffle)
   const cards = document.getElementsByClassName("card");
-  // debugger;
   for (let i = 0; i < cards.length; i++) {
-    // debugger;
     addCardListener(cards[i], shuffledArray[i]);
   }
 }
@@ -81,8 +80,18 @@ function shuffleArray(array) {
 }
 //push 2 of the same card to gameDeck (for matching)
 function addCardToDeck(json) {
-  gameDeck.push({ id: json.id, image: json.img, name: json.name });
-  gameDeck.push({ id: "a" + json.id, image: json.img, name: json.name }); //2 of each card
+  gameDeck.push({
+    id: json.id,
+    image: json.img,
+    name: json.name,
+    matched: false
+  });
+  gameDeck.push({
+    id: "a" + json.id,
+    image: json.img,
+    name: json.name,
+    matched: false
+  }); //2 of each card
 }
 
 //adds a 'flipping' listener to each card on click
@@ -109,6 +118,7 @@ function addCardListener(card, shuffledArray) {
 
 //makes a game board of a certain number of rows of 8 cards.
 function makeBoardOfXRows(rows) {
+  gameBoardDimensions(rows);
   for (var i = 0; i < rows; i++) {
     for (var j = 0; j < 8; j++) {
       const card = document.createElement("div");
@@ -116,6 +126,22 @@ function makeBoardOfXRows(rows) {
       card.id = `id-${i}${j}`;
       game.appendChild(card);
     }
+  }
+}
+
+function gameBoardDimensions(rows) {
+  switch (rows) {
+    case 1:
+      game.style.height = "185px";
+      break;
+    case 2:
+      game.style.height = "350px";
+      break;
+    case 3:
+      game.style.height = "520px";
+      break;
+    default:
+      game.style.height = "690px";
   }
 }
 
@@ -137,10 +163,10 @@ function theyMatch() {
 
 //makes a clone of the divs, removes the original (and their associated event listeners), sets the new clone opacity, resets the matchId array, resets the currently flipped cards counter
 function changeMatching() {
-  makeClone(1);
-  makeClone(3);
-  document.getElementById(matchId[1]).style.opacity = 0.4;
-  document.getElementById(matchId[3]).style.opacity = 0.4;
+  document.getElementById(matchId[1]).className = "matched";
+  document.getElementById(matchId[3]).className = "matched";
+  // document.getElementById(matchId[1]).style.opacity = 0.4;
+  // document.getElementById(matchId[3]).style.opacity = 0.4;
   matchId = [];
   currentFlipped = 0;
 }
@@ -162,3 +188,20 @@ function changeBack() {
   matchId = [];
   currentFlipped = 0;
 }
+
+function checkGameStatus() {
+  const matchedCards = document.getElementsByClassName("matched");
+  const timer = document.getElementsByClassName("timer-count")[0].innerText;
+  if (matchedCards.length === howManyRows * 8) {
+    alert(`YOU WIN! You took ${totalFlips} tries in ${timer} seconds.`);
+  }
+}
+
+// function updateGame() {
+//   const body = { gameArray: shuffledArray };
+//   fetch("http://localhost:3000/cards", {
+//     method: "patch",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify(body)
+//   });
+// }

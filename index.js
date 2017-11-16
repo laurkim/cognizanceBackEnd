@@ -1,3 +1,4 @@
+// global variables
 const game = document.getElementById("game");
 const gameDeck = [];
 let howManyRows = 1;
@@ -5,6 +6,7 @@ let currentFlipped = 0;
 let totalFlips = 0;
 let matchId = [];
 
+// fetch data from Rails API when webpage loads
 document.addEventListener("DOMContentLoaded", () => {
   //set on click event when they say how many rows they want/reset game?
   makeBoardOfXRows(howManyRows); //move outside, give option to set how many rows? (how difficult)
@@ -12,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch("http://localhost:3000/users")
     .then(res => res.json())
     .then(json => json);
+
   fetch("http://localhost:3000/cards")
     .then(res => res.json())
     .then(json => {
@@ -19,15 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// starts timer and allows user to play when start button is clicked
+// listens for click of start button to initiate game
 function initiateGameListener(json) {
   const startButton = document.getElementById("start-button");
   startButton.addEventListener("click", () => {
-    console.log("you've clicked start");
     generateCards(json);
     startTimer();
   });
-    // timer();
 }
 
 // function timer() {
@@ -69,12 +70,14 @@ function startTimer() {
   }, 1000);
 }
 
+// reloads webpage when eventlistener on reset button is triggered
 function resetGame() {
   const resetButton = document.getElementsByClassName("game-reset");
   resetButton.addEventListener("click", () => {
     fetch("http://localhost:3000/users")
       .then(res => res.json())
       .then(json => json);
+
     fetch("http://localhost:3000/cards")
       .then(res => res.json())
       .then(json => {
@@ -83,6 +86,7 @@ function resetGame() {
   });
 }
 
+// creates cards from JSON and appends to card canvas
 function generateCards(json) {
   makeDecks(json);
   collectCards(json);
@@ -100,6 +104,7 @@ function makeDecks(json) {
     }
   }
 }
+
 //randomizes images, adds an event listener to each card div, specific to an image
 function collectCards(json) {
   const shuffledArray = gameDeck; //shuffleArray(gameDeck); //change shuffleArray(gameDeck) to gameDeck to troubleshoot (wont shuffle)
@@ -111,7 +116,7 @@ function collectCards(json) {
 
 //modern version of fischer-yates shuffle algorithm, shuffles array.
 function shuffleArray(array) {
-  var j, x, i;
+  let j, x, i;
   for (i = array.length - 1; i > 0; i--) {
     j = Math.floor(Math.random() * (i + 1));
     x = array[i];
@@ -120,6 +125,7 @@ function shuffleArray(array) {
   }
   return array;
 }
+
 //push 2 of the same card to gameDeck (for matching)
 function addCardToDeck(json) {
   gameDeck.push({
@@ -161,8 +167,8 @@ function addCardListener(card, shuffledArray) {
 //makes a game board of a certain number of rows of 8 cards.
 function makeBoardOfXRows(rows) {
   gameBoardDimensions(rows);
-  for (var i = 0; i < rows; i++) {
-    for (var j = 0; j < 8; j++) {
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < 8; j++) {
       const card = document.createElement("div");
       card.className = "card";
       card.id = `id-${i}${j}`;

@@ -1,5 +1,4 @@
 //global variables
-// const form = document.getElementById("form");
 const form = document.getElementById("form");
 const game = document.getElementById("game");
 const gameDeck = [];
@@ -8,6 +7,7 @@ let howManyRows = 1;
 let currentFlipped = 0;
 let totalFlips = 0;
 let matchId = [];
+let timer;
 
 // fetch data from Rails API when webpage loads
 document.addEventListener("DOMContentLoaded", () => {
@@ -21,7 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetch("http://localhost:3000/users")
     .then(res => res.json())
-    .then(json => console.log(json));
+    .then(json => {
+      populateLeaderboard(json);
+    });
 
   fetch("http://localhost:3000/cards")
     .then(res => res.json())
@@ -29,6 +31,45 @@ document.addEventListener("DOMContentLoaded", () => {
       initiateGameListener(json);
     });
 });
+
+// sort JSON data in descending order based off User score
+function sortUserScoreDescending(data) {
+  let users = data.slice(0);
+  users.sort((a, b) => {
+    return b.highscore - a.highscore
+  })
+  return users;
+}
+
+// create tags for ranked user's name
+function createUserNameTag(user) {
+  let nameTag = document.createElement('p');
+  nameTag.setAttribute("class", "title-3 has-text-info has-text-weight-bold");
+  nameTag.innerText = `${user.name}: `;
+  return nameTag;
+}
+
+// create tags for ranked user's score
+function createUserScoreTag(user) {
+  let scoreTag = document.createElement('p');
+  scoreTag.setAttribute("class", "subtitle-3");
+  scoreTag.innerText = user.highscore;
+  return scoreTag;
+}
+
+// iterate through scoreboard places and populate each rank with tags from cbs
+function populateLeaderboard(data) {
+  let sortedUsers = sortUserScoreDescending(data);
+  let scoreboardPlace = document.querySelectorAll(".panel-block");
+  for (let i = 0; i < scoreboardPlace.length; i++) {
+    let rank = scoreboardPlace[i];
+    let user = sortedUsers[i];
+    let nameTag = createUserNameTag(user);
+    let scoreTag = createUserScoreTag(user);
+    rank.appendChild(nameTag);
+    rank.appendChild(scoreTag)
+  }
+}
 
 // listens for click of start button to initiate game
 function initiateGameListener(json) {
@@ -39,30 +80,8 @@ function initiateGameListener(json) {
   });
 }
 
-// function timer() {
-//   let timeDiv = document.getElementsByClassName("timer-count");
-//   let time = timeDiv[0].innerText;
-//   time = "00:59";
-//   timeDiv[0].innerText = time;
-//   let seconds = parseInt(time.split(":")[1]);
-//   let timer = setInterval(function() {
-//     checkGameStatus();
-//     let timeDiv = document.getElementsByClassName("timer-count");
-//     if (seconds === 0) {
-//       console.log("timer is over");
-//       clearInterval(timer);
-//     } else if (seconds > 10) {
-//       console.log("timer is not zero");
-//       --seconds;
-//       timeDiv[0].innerText = `00:${seconds}`;
-//     } else {
-//       console.log("timer is less than 10");
-//       --seconds;
-//       timeDiv[0].innerText = `00:0${seconds}`;
-//     }
-//   }, 1000);
-// }
-let timer;
+
+
 function startTimer() {
   let timeDiv = document.getElementsByClassName("timer-count");
   let time = timeDiv[0].innerText;
@@ -122,23 +141,17 @@ function startTimer() {
 
 // reloads webpage when eventlistener on reset button is triggered
 function resetGame() {
-  const resetButton = document.getElementsByClassName("game-reset");
+  const resetButton = document.getElementbyId("reset-game");
   resetButton.addEventListener("click", () => {
     fetch("http://localhost:3000/users")
       .then(res => res.json())
       .then(json => json);
 
-    // function resetGame() {
-    //   const resetButton = document.getElementsByClassName("game-reset");
-    //   resetButton.addEventListener("click", () => {
-    //     let timeDiv = document.getElementsByClassName("timer-count");
-    //     timeDiv[0].innerText = "Timer";
-
     fetch("http://localhost:3000/cards")
       .then(res => res.json())
       .then(json => {
         initiateGameListener(json);
-      });
+    });
   });
 }
 

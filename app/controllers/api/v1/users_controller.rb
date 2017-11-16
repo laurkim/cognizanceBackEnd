@@ -9,7 +9,6 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
-    # byebug
     User.create(user_params)
   end
 
@@ -18,9 +17,9 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    # byebug
     @user = User.find_by(id: params[:id])
     @user.highscore = user_params[:highscore]
+    @user.save
   end
 
   private

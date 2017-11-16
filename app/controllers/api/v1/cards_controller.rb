@@ -1,7 +1,7 @@
-class CardsController < ApplicationController
+class Api::V1::CardsController < ApplicationController
   def index
     @cards = Card.all
-    render json: @cards 
+    render json: @cards
   end
 
   def new

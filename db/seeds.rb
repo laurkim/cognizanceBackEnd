@@ -6,43 +6,31 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-users = [
-  {name: "Laura", highscore: 1000},
-  {name: "Robert", highscore: 1001},
-  {name: "John", highscore: 1002},
-  {name: "Jane", highscore: 900},
-  {name: "Stan", highscore: 500},
-  {name: "Julie", highscore: 5000}
-]
 
-cards = [
-  {name: "Charmander", img: "lib/images/charmander.png"},
-  {name: "Eevee", img: "lib/images/eevee2.png"},
-  {name: "Es", img: "lib/images/es_face_small.png"},
-  {name: "Gengar", img: "lib/images/gengar2.png"},
-  {name: "Ghastly", img: "lib/images/ghastly2.png"},
-  {name: "Golem", img: "lib/images/golem2.png"},
-  {name: "Mew", img: "lib/images/mew2.png"},
-  {name: "Pidgey", img: "lib/images/pidgey.png"},
-  {name: "Pikachu", img: "lib/images/pikachu.png"},
-  {name: "Psyduck", img: "lib/images/psyduck2.png"},
-  {name: "Squirtle", img: "lib/images/squirtle.png"},
-  {name: "Swinub", img: "lib/images/swinub.png"},
-  {name: "Togepi", img: "lib/images/togepi2.png"},
-  {name: "Zubat", img: "lib/images/zubat2.png"},
-  {name: "Bulbasaur", img: "lib/images/bulbasaur2.png"},
-  {name: "Caterpie", img: "lib/images/caterpie2.png"},
-  {name: "Farfetchd", img: "lib/images/farfetchd2.png"},
-  {name: "Piplup", img: "lib/images/piplup2.png"},
-  {name: "Raticate", img: "lib/images/raticate2.png"},
-  {name: "Sandshrew", img: "lib/images/sandshrew2.png"}
-]
+User.create(name: "Laura", highscore: 1000)
+User.create(name: "Robert", highscore: 1001)
+User.create(name: "John", highscore: 1002)
+User.create(name: "Jane", highscore: 900)
+User.create(name: "Stan", highscore: 500)
+User.create(name: "Julie", highscore: 5000)
 
-users.each do |user|
-  User.create(name: user.name, highscore: user.highscore)
-end
-
-
-cards.each do |card|
-  Card.create(name: card.name, img: img)
-end
+Card.create(name: "Charmander", img: "lib/images/charmander.png")
+Card.create(name: "Eevee", img: "lib/images/eevee2.png")
+Card.create(name: "Es", img: "lib/images/es_face_small.png")
+Card.create(name: "Gengar", img: "lib/images/gengar2.png")
+Card.create(name: "Ghastly", img: "lib/images/ghastly2.png")
+Card.create(name: "Golem", img: "lib/images/golem2.png")
+Card.create(name: "Mew", img: "lib/images/mew2.png")
+Card.create(name: "Pidgey", img: "lib/images/pidgey.png")
+Card.create(name: "Pikachu", img: "lib/images/pikachu.png")
+Card.create(name: "Psyduck", img: "lib/images/psyduck2.png")
+Card.create(name: "Squirtle", img: "lib/images/squirtle.png")
+Card.create(name: "Swinub", img: "lib/images/swinub.png")
+Card.create(name: "Togepi", img: "lib/images/togepi2.png")
+Card.create(name: "Zubat", img: "lib/images/zubat2.png")
+Card.create(name: "Bulbasaur", img: "lib/images/bulbasaur2.png")
+Card.create(name: "Caterpie", img: "lib/images/caterpie2.png")
+Card.create(name: "Farfetchd", img: "lib/images/farfetchd2.png")
+Card.create(name: "Piplup", img: "lib/images/piplup2.png")
+Card.create(name: "Raticate", img: "lib/images/raticate2.png")
+Card.create(name: "Sandshrew", img: "lib/images/sandshrew2.png")

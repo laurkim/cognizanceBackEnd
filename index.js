@@ -27,6 +27,7 @@ function initiateGameListener(json) {
     generateCards(json);
     startTimer();
   });
+    // timer();
 }
 
 // function timer() {
@@ -71,8 +72,6 @@ function startTimer() {
 function resetGame() {
   const resetButton = document.getElementsByClassName("game-reset");
   resetButton.addEventListener("click", () => {
-    let timeDiv = document.getElementsByClassName("timer-count");
-    timeDiv[0].innerText = "Timer";
     fetch("http://localhost:3000/users")
       .then(res => res.json())
       .then(json => json);

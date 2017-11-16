@@ -21,6 +21,11 @@
   /*opacity: 0.2;*/
 }
 
+.field {
+  float: left;
+  width: 10%;
+}
+
 .card {
   width: 100px;
   height: 150px;

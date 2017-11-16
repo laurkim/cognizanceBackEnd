@@ -9,10 +9,18 @@ class UsersController < ApplicationController
   end
 
   def create
+    byebug
+    User.create(user_params)
   end
 
   def show
     @user = User.find_by(id: params[:id])
+  end
+
+  def update
+    byebug
+    @user = User.find_by(id: params[:id])
+    @user.highscore = user_params[:highscore]
   end
 
   private

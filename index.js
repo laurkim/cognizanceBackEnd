@@ -1,6 +1,9 @@
-// global variables
+//global variables
+// const form = document.getElementById("form");
+const form = document.getElementById("form");
 const game = document.getElementById("game");
 const gameDeck = [];
+let currentUser = document.getElementById("current-user");
 let howManyRows = 1;
 let currentFlipped = 0;
 let totalFlips = 0;
@@ -9,7 +12,12 @@ let matchId = [];
 // fetch data from Rails API when webpage loads
 document.addEventListener("DOMContentLoaded", () => {
   //set on click event when they say how many rows they want/reset game?
-  makeBoardOfXRows(howManyRows); //move outside, give option to set how many rows? (how difficult)
+  makeBoardOfXRows(howManyRows);
+  // debugger; //move outside, give option to set how many rows? (how difficult)
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    // logInUser();
+  });
 
   fetch("http://localhost:3000/users")
     .then(res => res.json())
@@ -70,6 +78,48 @@ function startTimer() {
   }, 1000);
 }
 
+// function logInUser() {
+//   const username = document.getElementById("nameInput").value;
+//   fetch("http://localhost:3000/users")
+//     .then(res => res.json())
+//     .then(json => checkCurrentUser(json, username));
+//   document.getElementById("nameInput").value = "";
+// }
+
+// function checkCurrentUser(json, username) {
+//   let userHere = false;
+//   json.forEach(function(json) {
+//     if (json.name === username) {
+//       userHere = true;
+//       fetchUser(json, username);
+//     }
+//   });
+//   if (!userHere) {
+//     // debugger;
+//     makeUser(username);
+//   }
+// }
+
+// function fetchUser(json, username) {
+//   // debugger;
+//   currentUser.innerText = username;
+// }
+
+// function makeUser(username) {
+//   debugger;
+//   fetch("http://localhost:3000/users", {
+//     method: "post",
+//     mode: "no-cors",
+//     body: JSON.stringify({ user: { name: username, highscore: 25 } }),
+//     headers: {
+//       Accept: "application/json",
+//       "Content-Type": "application/json"
+//     }
+//   })
+//     // .then(res => res.json())
+//     .then(res => console.log(res));
+// }
+
 // reloads webpage when eventlistener on reset button is triggered
 function resetGame() {
   const resetButton = document.getElementsByClassName("game-reset");
@@ -77,6 +127,12 @@ function resetGame() {
     fetch("http://localhost:3000/users")
       .then(res => res.json())
       .then(json => json);
+
+    // function resetGame() {
+    //   const resetButton = document.getElementsByClassName("game-reset");
+    //   resetButton.addEventListener("click", () => {
+    //     let timeDiv = document.getElementsByClassName("timer-count");
+    //     timeDiv[0].innerText = "Timer";
 
     fetch("http://localhost:3000/cards")
       .then(res => res.json())
@@ -251,7 +307,15 @@ function checkGameStatus() {
   }
 }
 
-// function postGameData() {}
+// function postGameData() {
+//   fetch("http://localhost:3000/users", {
+//     method: "post",
+//     headers: {
+//       "Content-Type": "application/json"
+//     },
+//     body: JSON.stringify({ highscore: `${totalFlips}` })
+//   });
+// }
 
 // function updateGame() {
 //   const body = { gameArray: shuffledArray };

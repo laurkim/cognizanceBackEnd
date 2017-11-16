@@ -6,6 +6,19 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+users = [
+  ["Laura", 1000],
+  ["Robert", 1001],
+  ["John", 1002],
+  ["Jane", 900],
+  ["Stan", 500],
+  ["Julie", 5000]
+]
+
+users.each do |user|
+  User.create(name: user.name, highscore: user.highscore)
+end
+
 cards = [
   ["Charmander", "lib/images/charmander.png"],
   ["Eevee", "lib/images/eevee2.png"],
@@ -29,6 +42,6 @@ cards = [
   ["Sandshrew", "lib/images/sandshrew2.png"]
 ]
 
-cards.each do |name, img|
-  Card.create(name: name, img: img)
+cards.each do |card|
+  Card.create(name: card.name, img: card.img)
 end

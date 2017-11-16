@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    byebug
+    # byebug
     User.create(user_params)
   end
 
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    byebug
+    # byebug
     @user = User.find_by(id: params[:id])
     @user.highscore = user_params[:highscore]
   end

@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetch("http://localhost:3000/users")
     .then(res => res.json())
-    .then(json => json);
+    .then(json => console.log(json));
 
   fetch("http://localhost:3000/cards")
     .then(res => res.json())

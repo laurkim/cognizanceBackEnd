@@ -7,41 +7,42 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 users = [
-  ["Laura", 1000],
-  ["Robert", 1001],
-  ["John", 1002],
-  ["Jane", 900],
-  ["Stan", 500],
-  ["Julie", 5000]
+  {name: "Laura", highscore: 1000},
+  {name: "Robert", highscore: 1001},
+  {name: "John", highscore: 1002},
+  {name: "Jane", highscore: 900},
+  {name: "Stan", highscore: 500},
+  {name: "Julie", highscore: 5000}
+]
+
+cards = [
+  {name: "Charmander", img: "lib/images/charmander.png"},
+  {name: "Eevee", img: "lib/images/eevee2.png"},
+  {name: "Es", img: "lib/images/es_face_small.png"},
+  {name: "Gengar", img: "lib/images/gengar2.png"},
+  {name: "Ghastly", img: "lib/images/ghastly2.png"},
+  {name: "Golem", img: "lib/images/golem2.png"},
+  {name: "Mew", img: "lib/images/mew2.png"},
+  {name: "Pidgey", img: "lib/images/pidgey.png"},
+  {name: "Pikachu", img: "lib/images/pikachu.png"},
+  {name: "Psyduck", img: "lib/images/psyduck2.png"},
+  {name: "Squirtle", img: "lib/images/squirtle.png"},
+  {name: "Swinub", img: "lib/images/swinub.png"},
+  {name: "Togepi", img: "lib/images/togepi2.png"},
+  {name: "Zubat", img: "lib/images/zubat2.png"},
+  {name: "Bulbasaur", img: "lib/images/bulbasaur2.png"},
+  {name: "Caterpie", img: "lib/images/caterpie2.png"},
+  {name: "Farfetchd", img: "lib/images/farfetchd2.png"},
+  {name: "Piplup", img: "lib/images/piplup2.png"},
+  {name: "Raticate", img: "lib/images/raticate2.png"},
+  {name: "Sandshrew", img: "lib/images/sandshrew2.png"}
 ]
 
 users.each do |user|
   User.create(name: user.name, highscore: user.highscore)
 end
 
-cards = [
-  ["Charmander", "lib/images/charmander.png"],
-  ["Eevee", "lib/images/eevee2.png"],
-  ["Es", "lib/images/es_face_small.png"],
-  ["Gengar", "lib/images/gengar2.png"],
-  ["Ghastly", "lib/images/ghastly2.png"],
-  ["Golem", "lib/images/golem2.png"],
-  ["Mew", "lib/images/mew2.png"],
-  ["Pidgey", "lib/images/pidgey.png"],
-  ["Pikachu", "lib/images/pikachu.png"],
-  ["Psyduck", "lib/images/psyduck2.png"],
-  ["Squirtle", "lib/images/squirtle.png"],
-  ["Swinub", "lib/images/swinub.png"],
-  ["Togepi", "lib/images/togepi2.png"],
-  ["Zubat", "lib/images/zubat2.png"],
-  ["Bulbasaur", "lib/images/bulbasaur2.png"],
-  ["Caterpie", "lib/images/caterpie2.png"],
-  ["Farfetchd", "lib/images/farfetchd2.png"],
-  ["Piplup", "lib/images/piplup2.png"],
-  ["Raticate", "lib/images/raticate2.png"],
-  ["Sandshrew", "lib/images/sandshrew2.png"]
-]
 
 cards.each do |card|
-  Card.create(name: card.name, img: card.img)
+  Card.create(name: card.name, img: img)
 end

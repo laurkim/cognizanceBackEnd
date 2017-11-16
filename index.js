@@ -7,6 +7,7 @@ let howManyRows = 1;
 let currentFlipped = 0;
 let totalFlips = 0;
 let matchId = [];
+let timer;
 
 // fetch data from Rails API when webpage loads
 document.addEventListener("DOMContentLoaded", () => {
@@ -44,7 +45,7 @@ function sortUserScoreDescending(data) {
 function createUserNameTag(user) {
   let nameTag = document.createElement('p');
   nameTag.setAttribute("class", "title-3 has-text-info has-text-weight-bold");
-  nameTag.innerText = user.name;
+  nameTag.innerText = `${user.name}: `;
   return nameTag;
 }
 
@@ -80,7 +81,7 @@ function initiateGameListener(json) {
 }
 
 
-let timer;
+
 function startTimer() {
   let timeDiv = document.getElementsByClassName("timer-count");
   let time = timeDiv[0].innerText;
@@ -140,23 +141,17 @@ function startTimer() {
 
 // reloads webpage when eventlistener on reset button is triggered
 function resetGame() {
-  const resetButton = document.getElementsByClassName("game-reset");
+  const resetButton = document.getElementbyId("reset-game");
   resetButton.addEventListener("click", () => {
     fetch("http://localhost:3000/users")
       .then(res => res.json())
       .then(json => json);
 
-    // function resetGame() {
-    //   const resetButton = document.getElementsByClassName("game-reset");
-    //   resetButton.addEventListener("click", () => {
-    //     let timeDiv = document.getElementsByClassName("timer-count");
-    //     timeDiv[0].innerText = "Timer";
-
     fetch("http://localhost:3000/cards")
       .then(res => res.json())
       .then(json => {
         initiateGameListener(json);
-      });
+    });
   });
 }
 

@@ -7,12 +7,12 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-User.create(name: "Laura", highscore: 250)
-User.create(name: "Robert", highscore: 499)
-User.create(name: "John", highscore: 70)
-User.create(name: "Jane", highscore: 178)
-User.create(name: "Stan", highscore: 309)
-User.create(name: "Julie", highscore: 438)
+User.create(name: "Laura", highscore: 40)
+User.create(name: "Robert", highscore: 49)
+User.create(name: "Jason", highscore: 47)
+User.create(name: "Jane", highscore: 100)
+User.create(name: "Alex", highscore: 45)
+User.create(name: "Es", highscore: 46)
 
 Card.create(name: "applechip", img: "lib/images/apple_chips.png")
 Card.create(name: "apple", img: "lib/images/apple.png")

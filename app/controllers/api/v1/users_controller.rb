@@ -9,7 +9,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
-    User.create(user_params)
+    @user = User.create(user_params)
+    render json: @user
   end
 
   def show
@@ -20,6 +21,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
     @user.highscore = user_params[:highscore]
     @user.save
+    render json: @user
   end
 
   private
